@@ -9,6 +9,7 @@ const remainingGuessesDisplay = document.querySelector(".remaining span");
 const message = document.querySelector(".message");
 const playAgainButton = document.querySelector(".play-again");
 const word = "magnolia";
+const guessedLetters = [];
 
 // function to replace letters of word with ● at start of game
 
@@ -27,6 +28,22 @@ const addPlaceholders = function (word) {
 guessButton.addEventListener("click", function (e) {
     e.preventDefault();
     const guess = letterInput.value;
-    console.log(guess);
     letterInput.value = "";
+    message.innerText = "";
+    const messageText = validateGuess(guess);
+    message.innerText = messageText;
+
 });
+
+// function to check player's input is a valid guess
+
+const validateGuess = function (input) {
+    const acceptedLetter = /[a-zA-Z]/;
+    if (input === "") {
+        return "You didn't enter a letter, please try again!"
+    } else if (input.length > 1) {
+        return "You entered more than one letter, please try again!"
+    } else if (!input.match(acceptedLetter)) {
+        return "That isn't a valid guess, please try again!"
+    } else {return input};
+};
