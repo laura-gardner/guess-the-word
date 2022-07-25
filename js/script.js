@@ -9,7 +9,7 @@ const remainingGuessesDisplay = document.querySelector(".remaining span");
 const message = document.querySelector(".message");
 const playAgainButton = document.querySelector(".play-again");
 const word = "magnolia";
-const guessedLetters = [];
+const guessedLetterArray = [];
 
 // function to replace letters of word with ● at start of game
 
