@@ -148,7 +148,7 @@ playAgainButton.addEventListener("click", function (e) {
     guessedLetters.innerHTML = "";
     numGuessesRemaining = 8;
     guessedLetterArray = [];
-    remainingGuesses.innerHTML = "You have <span>8 guesses</span> remaining";
+    remainingGuesses.innerHTML = "You have <span>8 guesses</span> remaining.";
     playAgainButton.classList.add("hide");
     guessButton.classList.remove("hide");
     remainingGuesses.classList.remove("hide");
