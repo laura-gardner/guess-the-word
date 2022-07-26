@@ -8,8 +8,20 @@ const remainingGuesses = document.querySelector(".remaining");
 const remainingGuessesDisplay = document.querySelector(".remaining span");
 const message = document.querySelector(".message");
 const playAgainButton = document.querySelector(".play-again");
-const word = "magnolia";
+let word = "magnolia";
 const guessedLetterArray = [];
+let numGuessesRemaining = 8;
+
+const getWord = async function () {
+    const response = await fetch("https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt");
+    const words = await response.text();
+    const wordArray = words.split("\n");
+    const index = Math.floor(Math.random() * wordArray.length) + 1;
+    word = wordArray[index].trim();
+    addPlaceholders(word);
+}
+
+getWord();
 
 // function to replace letters of word with ● at start of game
 
@@ -21,7 +33,6 @@ const addPlaceholders = function (word) {
     const hiddenWord = placeholder.join("");
     wordInProgressDisplay.innerText = hiddenWord;
 }
-addPlaceholders(word);
 
 // add event listener for click event on guessButton
 
@@ -61,7 +72,7 @@ const makeGuess = function (letter) {
         guessedLetterArray.push(guess)
         showGuessedLetters(guessedLetterArray);
     }
-    console.log(guessedLetterArray)
+    countGuesses(guess);
 };
 
 // function to show the guessed letters 
@@ -91,6 +102,23 @@ const updateWordInProgress = function (guessedLetterArray) {
     isGameOver(wordInProgress);
 };
 
+// function to count guesses
+
+const countGuesses = function (guess) {
+    const wordUpper = word.toUpperCase();
+    if (wordUpper.indexOf(guess) === -1) {
+        message.innerText = `The word does not include the letter ${guess}`;
+        numGuessesRemaining -= 1;
+        console.log(numGuessesRemaining);
+    } else {message.innerText = `The word does contain the letter ${guess}!`};
+    if (numGuessesRemaining === 0) {
+        message.innerHTML = `You've run out of guesses.  Game over!<br>The word was ${wordUpper}`; 
+    } else if (numGuessesRemaining === 1) {
+        message.innerText = "You only have one guess remaining!";
+    }
+};
+
+
 // function to check whether player has correctly guessed the word
 
 const isGameOver = function (wordInProgress) {
@@ -99,3 +127,4 @@ const isGameOver = function (wordInProgress) {
         message.innerHTML = '<p class="highlight">You guessed correct the word! Congrats!</p>';
     } else {console.log("Keep guessing!")}
 };
+
