@@ -3,7 +3,7 @@
 const guessedLetters = document.querySelector(".guessed-letters");
 const guessButton = document.querySelector(".guess");
 const letterInput = document.querySelector(".letter");
-const wordInProgress = document.querySelector(".word-in-progress");
+const wordInProgressDisplay = document.querySelector(".word-in-progress");
 const remainingGuesses = document.querySelector(".remaining");
 const remainingGuessesDisplay = document.querySelector(".remaining span");
 const message = document.querySelector(".message");
@@ -19,7 +19,7 @@ const addPlaceholders = function (word) {
         placeholder[i] = "●";
     }
     const hiddenWord = placeholder.join("");
-    wordInProgress.innerText = hiddenWord;
+    wordInProgressDisplay.innerText = hiddenWord;
 }
 addPlaceholders(word);
 
@@ -85,6 +85,17 @@ const updateWordInProgress = function (guessedLetterArray) {
             wordArray.splice(index, 1, "●")
         };
     }); 
-    wordInProgress.innerText = wordArray.join("");
+    const wordInProgress = wordArray.join("");
+    wordInProgressDisplay.innerText = wordInProgress;
+    console.log(wordInProgress);
+    isGameOver(wordInProgress);
 };
 
+// function to check whether player has correctly guessed the word
+
+const isGameOver = function (wordInProgress) {
+    if (wordInProgress === word.toUpperCase()) {
+        message.classList.add("win");
+        message.innerHTML = '<p class="highlight">You guessed correct the word! Congrats!</p>';
+    } else {console.log("Keep guessing!")}
+};
