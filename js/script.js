@@ -32,6 +32,7 @@ guessButton.addEventListener("click", function (e) {
     message.innerText = "";
     const messageText = validateGuess(guess);
     message.innerText = messageText;
+    makeGuess(guess);
 
 });
 
@@ -46,4 +47,16 @@ const validateGuess = function (input) {
     } else if (!input.match(acceptedLetter)) {
         return "That isn't a valid guess, please try again!"
     } else {return input};
+};
+
+// function to capture input
+
+const makeGuess = function (letter) {
+    const guess = letter.toUpperCase();
+    if (guessedLetterArray.includes(guess)) {
+        message.innerText = "You've already guessed that letter, please try again!"
+    } else {
+        guessedLetterArray.push(guess)
+    }
+    console.log(guessedLetterArray);
 };
