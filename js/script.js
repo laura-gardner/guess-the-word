@@ -20,8 +20,8 @@ const addPlaceholders = function (word) {
     }
     const hiddenWord = placeholder.join("");
     wordInProgress.innerText = hiddenWord;
-}; 
-
+}
+addPlaceholders(word);
 
 // add event listener for click event on guessButton
 
@@ -30,9 +30,11 @@ guessButton.addEventListener("click", function (e) {
     const guess = letterInput.value;
     letterInput.value = "";
     message.innerText = "";
-    const messageText = validateGuess(guess);
-    message.innerText = messageText;
-    makeGuess(guess);
+    const validatedGuess = validateGuess(guess);
+    if (validatedGuess) {
+        makeGuess(validatedGuess)
+    }
+    updateWordInProgress(guessedLetterArray);
 
 });
 
@@ -41,11 +43,11 @@ guessButton.addEventListener("click", function (e) {
 const validateGuess = function (input) {
     const acceptedLetter = /[a-zA-Z]/;
     if (input === "") {
-        return "You didn't enter a letter, please try again!"
+        message.innerText = "You didn't enter a letter, please try again!"
     } else if (input.length > 1) {
-        return "You entered more than one letter, please try again!"
+        message.innerText = "You entered more than one letter, please try again!"
     } else if (!input.match(acceptedLetter)) {
-        return "That isn't a valid guess, please try again!"
+        message.innerText = "That isn't a valid guess, please try again!"
     } else {return input};
 };
 
@@ -57,6 +59,32 @@ const makeGuess = function (letter) {
         message.innerText = "You've already guessed that letter, please try again!"
     } else {
         guessedLetterArray.push(guess)
+        showGuessedLetters(guessedLetterArray);
     }
-    console.log(guessedLetterArray);
+    console.log(guessedLetterArray)
 };
+
+// function to show the guessed letters 
+
+const showGuessedLetters = function (guessedLetterArray) {
+    guessedLetters.innerHTML = "";
+    for (let letter of guessedLetterArray) {
+        const li = document.createElement('li');
+        li.innerText = letter;
+        guessedLetters.append(li);
+    }
+};
+
+// function to update the word in progress
+
+const updateWordInProgress = function (guessedLetterArray) {
+    const wordUpper = word.toUpperCase();
+    const wordArray = wordUpper.split("");
+    wordArray.forEach (function (letter, index) {
+        if (!guessedLetterArray.includes(letter)) {
+            wordArray.splice(index, 1, "●")
+        };
+    }); 
+    wordInProgress.innerText = wordArray.join("");
+};
+
