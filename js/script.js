@@ -99,7 +99,7 @@ const updateWordInProgress = function (guessedLetterArray) {
 const isGameOver = function (wordInProgress) {
     if (wordInProgress === word.toUpperCase()) {
         message.classList.add("win");
-        message.innerHTML = '<p class="highlight">You guessed correct the word! Congrats!</p>';
+        message.innerHTML = '<p class="highlight">You correctly guessed the word! Congrats!</p>';
         gameOver();
     }
 };
